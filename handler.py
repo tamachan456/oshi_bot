@@ -520,8 +520,7 @@ def handle_message(line_bot_api, reply_token, user_id, text):
               ))
     else:
         reply(line_bot_api, reply_token,
-              text_msg("「スタート」と送ると始められます✨
-すでに登録済みの方は「メニュー」と送ってください"))
+              text_msg("「スタート」と送ると始められます✨\nすでに登録済みの方は「メニュー」と送ってください"))
 
 
 def _show_oshi_list(line_bot_api, reply_token, user_id):
