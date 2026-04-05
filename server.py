@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, abort
 from linebot.v3 import WebhookHandler
 from linebot.v3.messaging import ApiClient, Configuration, MessagingApi
@@ -5,7 +6,6 @@ from linebot.v3.webhooks import MessageEvent, TextMessageContent
 from linebot.v3.exceptions import InvalidSignatureError
 from handler import handle_message
 from scheduler import start_scheduler, init_cache_table, collect_all
-import os
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -29,12 +29,11 @@ def callback():
 
 @app.route("/collect", methods=["GET"])
 def manual_collect():
-    """手動でチE�Eタ収集を実行するエンド�Eイント（テスト用�E�E""
     import threading
     t = threading.Thread(target=collect_all)
     t.daemon = True
     t.start()
-    return "収集開始しました", 200
+    return "collect started", 200
 
 
 @handler.add(MessageEvent, message=TextMessageContent)
@@ -49,6 +48,7 @@ def on_message(event):
 
 if __name__ == "__main__":
     init_cache_table()
-    scheduler = start_scheduler()
-    print("🚀 推し太郎Bot 起動完亁E)
-    app.run(host="0.0.0.0", port=10000, debug=False)
+    start_scheduler()
+    print("Bot started")
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host="0.0.0.0", port=port, debug=False)
